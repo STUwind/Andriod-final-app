@@ -1,5 +1,8 @@
 package com.andriodcourse.andriodfinalapp.fragment;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +16,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.andriodcourse.andriodfinalapp.R;
+import com.andriodcourse.andriodfinalapp.db.CharacterDAO;
+import com.andriodcourse.andriodfinalapp.model.CharacterModel;
 
+/**
+ * 角色界面 Fragment，展示当前用户的角色信息，并播放中下位置的动画
+ */
 public class CharacterFragment extends Fragment {
 
     private ImageView ivAvatar;
@@ -21,6 +29,7 @@ public class CharacterFragment extends Fragment {
     private TextView tvName;
     private TextView tvLevel;
     private ProgressBar progressExp;
+    private TextView tvExpPercent;
     private TextView tvPower;
 
     public CharacterFragment() {
@@ -32,38 +41,48 @@ public class CharacterFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_character, container, false);
         initViews(root);
-        loadDummyCharacter();
+        loadCharacterFromDb();
+        startMiddleAnimation();
         return root;
     }
 
-    /**
-     * 绑定布局中的控件
-     */
     private void initViews(View root) {
-        ivAvatar    = root.findViewById(R.id.iv_avatar);
+        ivAvatar       = root.findViewById(R.id.iv_avatar);
         ivMiddleImage  = root.findViewById(R.id.iv_middle_image);
-        tvName      = root.findViewById(R.id.tv_name);
-        tvLevel     = root.findViewById(R.id.tv_level);
-        progressExp = root.findViewById(R.id.progress_exp);
-        tvPower     = root.findViewById(R.id.tv_power);
+        tvName         = root.findViewById(R.id.tv_name);
+        tvLevel        = root.findViewById(R.id.tv_level);
+        progressExp    = root.findViewById(R.id.progress_exp);
+        tvExpPercent   = root.findViewById(R.id.tv_exp_percent);
+        tvPower        = root.findViewById(R.id.tv_power);
     }
 
-    /**
-     * 临时加载一组假数据，后续替换成从数据库获取真实角色数据
-     */
-    private void loadDummyCharacter() {
-        // 设置头像占位图
-        ivAvatar.setImageResource(R.drawable.ic_avatar_placeholder);
-        ivMiddleImage.setImageResource(R.drawable.ic_middle_placeholder);
+    private void loadCharacterFromDb() {
+        Context ctx = requireContext();
+        SharedPreferences sp = ctx.getSharedPreferences("config", Context.MODE_PRIVATE);
+        int userId = sp.getInt("user_id", -1);
+        if (userId < 0) return;
 
-        // 示例角色信息
-        tvName.setText("疾风剑豪");
-        tvLevel.setText("等级：6");
-        progressExp.setMax(100);
-        progressExp.setProgress(45);  // 当前经验进度：45%
-        tvPower.setText("战斗力：1580");
+        CharacterDAO dao = new CharacterDAO(ctx);
+        CharacterModel cm = dao.getCharacter(userId);
+        if (cm == null) return;
+
+        // 直接使用资源ID设置头像
+        ivAvatar.setImageResource(cm.getImageRes());
+
+        // 名称、等级、经验、战斗力显示
+        tvName.setText(cm.getName());
+        tvLevel.setText("等级：" + cm.getLevel());
+        progressExp.setMax(10);
+        progressExp.setProgress(cm.getExp());
+        tvExpPercent.setText("经验：" + (cm.getExp() * 10) + "%");
+        tvPower.setText("战斗力：" + cm.getCombatPower());
+    }
+
+    private void startMiddleAnimation() {
+        ivMiddleImage.setImageResource(R.drawable.anim_character_middle);
+        AnimationDrawable anim = (AnimationDrawable) ivMiddleImage.getDrawable();
+        anim.start();
     }
 }

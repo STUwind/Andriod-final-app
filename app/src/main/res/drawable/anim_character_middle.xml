@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:oneshot="false">
+    <!-- 中下位置动画帧列表 -->
+    <item
+        android:drawable="@drawable/char_middle_frame1"
+        android:duration="100" />
+    <item
+        android:drawable="@drawable/char_middle_frame2"
+        android:duration="130" />
+    <item
+        android:drawable="@drawable/char_middle_frame3"
+        android:duration="130" />
+    <item
+        android:drawable="@drawable/char_middle_frame4"
+        android:duration="600" />
+    <!-- 可添加更多帧以丰富动画 -->
+</animation-list>

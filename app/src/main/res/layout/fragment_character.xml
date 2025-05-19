@@ -3,7 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/fragment_character"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp">
@@ -11,77 +10,84 @@
     <!-- 角色头像 -->
     <ImageView
         android:id="@+id/iv_avatar"
-        android:layout_width="96dp"
+        android:layout_width="120dp"
         android:layout_height="120dp"
         android:contentDescription="角色头像"
-        android:src="@drawable/ic_avatar_placeholder"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:srcCompat="@drawable/avatar_default"
+        android:scaleType="centerCrop"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <!-- 角色名称 -->
     <TextView
         android:id="@+id/tv_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="角色名"
         android:textSize="18sp"
-        app:layout_constraintTop_toTopOf="@+id/iv_avatar"
-        app:layout_constraintStart_toEndOf="@+id/iv_avatar"
+        app:layout_constraintStart_toEndOf="@id/iv_avatar"
+        app:layout_constraintTop_toTopOf="@id/iv_avatar"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginStart="16dp"/>
+        android:layout_marginStart="16dp"
+        tools:text="角色名" />
 
     <!-- 等级 -->
     <TextView
         android:id="@+id/tv_level"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="等级：1"
         android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@+id/tv_name"
-        app:layout_constraintStart_toStartOf="@+id/tv_name"
-        android:layout_marginTop="8dp"/>
+        app:layout_constraintStart_toStartOf="@id/tv_name"
+        app:layout_constraintTop_toBottomOf="@id/tv_name"
+        android:layout_marginTop="8dp"
+        tools:text="等级：1" />
 
     <!-- 经验进度条 -->
     <ProgressBar
-        style="?android:attr/progressBarStyleHorizontal"
         android:id="@+id/progress_exp"
+        style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:max="100"
-        android:progress="50"
-        app:layout_constraintTop_toBottomOf="@+id/tv_level"
-        app:layout_constraintStart_toStartOf="@+id/tv_level"
+        android:max="10"
+        app:layout_constraintStart_toStartOf="@id/tv_level"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="8dp"/>
+        app:layout_constraintTop_toBottomOf="@id/tv_level"
+        android:layout_marginTop="8dp" />
 
-    <!-- 战斗力：与等级一组展示 -->
+    <!-- 经验百分比 -->
+    <TextView
+        android:id="@+id/tv_exp_percent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/progress_exp"
+        app:layout_constraintTop_toBottomOf="@id/progress_exp"
+        android:layout_marginTop="4dp"
+        tools:text="经验：0%" />
 
-    <!-- 中下位置的大图 -->
-
+    <!-- 战斗力 -->
     <TextView
         android:id="@+id/tv_power"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:text="战斗力：1580"
         android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="@+id/progress_exp"
-        app:layout_constraintTop_toBottomOf="@+id/progress_exp" />
+        app:layout_constraintStart_toStartOf="@id/tv_level"
+        app:layout_constraintTop_toBottomOf="@id/tv_exp_percent"
+        android:layout_marginTop="8dp"
+        tools:text="战斗力：0" />
 
+    <!-- 中下位置的动态动画图 -->
     <ImageView
         android:id="@+id/iv_middle_image"
-        android:layout_width="316dp"
-        android:layout_height="499dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:adjustViewBounds="true"
-        android:contentDescription="页面装饰图"
-        android:scaleType="centerCrop"
-        android:src="@drawable/ic_middle_placeholder"
+        android:contentDescription="页面装饰动画"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/anim_character_middle"
+        app:layout_constraintTop_toBottomOf="@id/tv_power"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_power"
-        app:layout_constraintVertical_bias="0.219" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
