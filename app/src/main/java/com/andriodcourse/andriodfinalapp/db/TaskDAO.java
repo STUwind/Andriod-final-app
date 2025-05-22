@@ -26,11 +26,12 @@ public class TaskDAO {
         List<Task> list = new ArrayList<>();
         while (c.moveToNext()) {
             int id    = c.getInt(c.getColumnIndexOrThrow("id"));
+            int userIdDb = c.getInt(c.getColumnIndexOrThrow("user_id"));
             String title = c.getString(c.getColumnIndexOrThrow("title"));
             int type = c.getInt(c.getColumnIndexOrThrow("type"));
             int exp  = c.getInt(c.getColumnIndexOrThrow("exp"));
             boolean done = c.getInt(c.getColumnIndexOrThrow("is_completed")) == 1;
-            list.add(new Task(id, title, type, exp, done));
+            list.add(new Task(id, userIdDb, title, type, exp, done));
         }
         c.close();
         return list;
@@ -40,24 +41,17 @@ public class TaskDAO {
     public void add(int userId, String title, int type) {
         int gainExp;
         switch (type) {
-            case 1:
-                gainExp = 1;   // 日常
-                break;
-            case 2:
-                gainExp = 10;  // 阶段
-                break;
-            case 3:
-                gainExp = 100; // 最终
-                break;
-            default:
-                gainExp = 0;   // 测试时可用
+            case 1: gainExp = 1; break;   // 日常
+            case 2: gainExp = 10; break;  // 阶段
+            case 3: gainExp = 100; break; // 最终
+            default: gainExp = 0;
         }
-
         ContentValues v = new ContentValues();
         v.put("user_id", userId);
         v.put("title",   title);
         v.put("type",    type);
         v.put("exp",     gainExp);
+        v.put("is_completed", 0);
         helper.getWritableDatabase().insert("tasks", null, v);
     }
 

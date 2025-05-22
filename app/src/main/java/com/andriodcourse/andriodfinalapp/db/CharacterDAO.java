@@ -4,76 +4,92 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 
+import com.andriodcourse.andriodfinalapp.R;
 import com.andriodcourse.andriodfinalapp.model.CharacterModel;
+import com.andriodcourse.andriodfinalapp.db.DBHelper;
 
 /**
  * 角色数据访问对象，负责 character 表的增删查改操作
  */
 public class CharacterDAO {
-    private DBHelper helper;
+    private DBHelper helper;  // 数据库帮助类实例
 
     public CharacterDAO(Context ctx) {
         helper = new DBHelper(ctx);
     }
 
     /**
-     * 初始化新用户角色，使用指定的角色名和头像资源
-     * @param userId 用户 ID
-     * @param characterName 角色名称
-     * @param imageResId 头像资源 ID
+     * 初始化新用户角色，确保用户首次使用时有初始数据
      */
     public void createDefault(int userId, String characterName, int imageResId) {
         SQLiteDatabase db = helper.getWritableDatabase();
         ContentValues v = new ContentValues();
-        v.put("user_id",      userId);
-        v.put("name",         characterName);
-        v.put("level",        1);
-        v.put("exp",          0);
-        v.put("image",        imageResId);
+        v.put("user_id", userId);
+        v.put("name", characterName);
+        v.put("level", 1);
+        v.put("exp", 0);
+        v.put("image", imageResId);
         v.put("combat_power", 0);
         db.insert("character", null, v);
     }
 
     /**
-     * 查询指定用户的角色信息
-     * @param userId 用户 ID
-     * @return 对应的 CharacterModel 或 null
+     * 查询角色信息
      */
     public CharacterModel getCharacter(int userId) {
         SQLiteDatabase db = helper.getReadableDatabase();
-        Cursor c = db.query(
-                "character", null,
-                "user_id=?", new String[]{ String.valueOf(userId) },
-                null, null, null
-        );
+        Cursor c = db.query("character", null, "user_id=?",
+                new String[]{String.valueOf(userId)}, null, null, null);
         if (!c.moveToFirst()) {
-            c.close();
+            c.close();  // 若无记录则关闭并返回null
             return null;
         }
-        String name = c.getString(c.getColumnIndexOrThrow("name"));
-        int level = c.getInt(c.getColumnIndexOrThrow("level"));
-        int exp = c.getInt(c.getColumnIndexOrThrow("exp"));
-        int imageRes = c.getInt(c.getColumnIndexOrThrow("image"));
-        int combatPower = c.getInt(c.getColumnIndexOrThrow("combat_power"));
+        CharacterModel cm = new CharacterModel(
+                userId,
+                c.getString(c.getColumnIndexOrThrow("name")),
+                c.getInt(c.getColumnIndexOrThrow("level")),
+                c.getInt(c.getColumnIndexOrThrow("exp")),
+                c.getInt(c.getColumnIndexOrThrow("image")),
+                c.getInt(c.getColumnIndexOrThrow("combat_power"))
+        );
         c.close();
-        return new CharacterModel(userId, name, level, exp, imageRes, combatPower);
+        return cm;
     }
 
     /**
-     * 更新角色的等级、经验、头像和战斗力
-     * @param cm 包含最新状态的角色模型
+     * 为角色增加经验，若无旧记录则先插入默认记录后再退出
      */
-    public void update(CharacterModel cm) {
+    public void addExp(int userId, int addExp) {
         SQLiteDatabase db = helper.getWritableDatabase();
+        Cursor c = db.query("character", null, "user_id=?",
+                new String[]{String.valueOf(userId)}, null, null, null);
+        if (!c.moveToFirst()) {
+            c.close();
+            // 若无记录，则创建默认角色（默认名从资源取）
+            createDefault(userId, "角色", R.drawable.avatar_default);
+            return;
+        }
+        // 已有记录则累加经验并可能升级
+        int currentExp = c.getInt(c.getColumnIndexOrThrow("exp"));
+        int level = c.getInt(c.getColumnIndexOrThrow("level"));
+        int power = c.getInt(c.getColumnIndexOrThrow("combat_power"));
+        c.close();
+
+        int totalExp = currentExp + addExp;  // 累积经验
+        while (totalExp >= 10) {
+            totalExp -= 10;
+            level++;
+            power += Math.pow(2, level) - (int)(Math.random() * 10 + 1);
+        }
+        // 更新数据库
         ContentValues v = new ContentValues();
-        v.put("level",        cm.getLevel());
-        v.put("exp",          cm.getExp());
-        v.put("image",        cm.getImageRes());
-        v.put("combat_power", cm.getCombatPower());
-        db.update(
-                "character", v,
-                "user_id=?", new String[]{ String.valueOf(cm.getUserId()) }
-        );
+        v.put("exp", totalExp);
+        v.put("level", level);
+        v.put("combat_power", power);
+        db.update("character", v, "user_id=?", new String[]{String.valueOf(userId)});
     }
 }
+
+
