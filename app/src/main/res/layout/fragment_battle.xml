@@ -1,6 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <!-- Boss血量标题 -->
+    <TextView
+        android:id="@+id/tv_boss_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Boss血量"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- Boss血量进度条 -->
+    <ProgressBar
+        android:id="@+id/progress_boss_hp"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:max="99999"
+        android:progress="99999"
+        android:progressTint="#FF4444"
+        android:progressBackgroundTint="#CCCCCC"
+        app:layout_constraintTop_toBottomOf="@id/tv_boss_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp" />
+
+    <!-- Boss血量数值 -->
+    <TextView
+        android:id="@+id/tv_boss_hp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="99999 / 99999"
+        android:textSize="14sp"
+        app:layout_constraintTop_toBottomOf="@id/progress_boss_hp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="4dp" />
+
+    <!-- 战斗区域容器 -->
+    <LinearLayout
+        android:id="@+id/layout_battle_area"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/tv_boss_hp"
+        app:layout_constraintBottom_toTopOf="@id/layout_buttons"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="24dp">
+
+        <!-- 角色图片 -->
+        <ImageView
+            android:id="@+id/iv_character"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:contentDescription="角色"
+            app:srcCompat="@drawable/char_middle_frame1" />
+
+        <!-- 战斗占位符 -->
+        <ImageView
+            android:id="@+id/iv_battle_placeholder"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:contentDescription="战斗场景"
+            app:srcCompat="@drawable/ic_battle_placeholder" />
+
+        <!-- Boss图片 -->
+        <ImageView
+            android:id="@+id/iv_boss"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:contentDescription="Boss"
+            app:srcCompat="@drawable/ic_boss_placeholder" />
+
+    </LinearLayout>
+
+    <!-- 战斗按钮区域 -->
+    <LinearLayout
+        android:id="@+id/layout_buttons"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- 攻击按钮 -->
+        <Button
+            android:id="@+id/btn_attack"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="攻击"
+            android:textSize="18sp"
+            android:padding="16dp"
+            android:layout_marginEnd="8dp" />
+
+        <!-- 重置按钮 -->
+        <Button
+            android:id="@+id/btn_reset"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="重置"
+            android:textSize="16sp"
+            android:padding="16dp"
+            android:layout_marginStart="8dp" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

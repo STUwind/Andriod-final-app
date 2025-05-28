@@ -15,4 +15,4 @@
         android:drawable="@drawable/char_middle_frame4"
         android:duration="600" />
     <!-- 可添加更多帧以丰富动画 -->
-</animation-list>
+</animation-list> 
