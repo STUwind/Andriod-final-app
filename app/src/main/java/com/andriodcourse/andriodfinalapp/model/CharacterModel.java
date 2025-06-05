@@ -10,6 +10,7 @@ public class CharacterModel {
     private int exp;           // 剩余经验值（用于升级进度）
     private int imageRes;      // 头像资源 ID
     private int combatPower;   // 当前战斗力
+    private int lastUpgradeChoiceLevel; // 上次升级选择的等级
 
     /**
      * 构造函数
@@ -27,6 +28,27 @@ public class CharacterModel {
         this.exp = exp;
         this.imageRes = imageRes;
         this.combatPower = combatPower;
+        this.lastUpgradeChoiceLevel = 0; // 默认值
+    }
+
+    /**
+     * 完整构造函数（包含升级选择等级）
+     * @param userId 用户 ID
+     * @param name 角色名称
+     * @param level 当前等级
+     * @param exp 当前剩余经验
+     * @param imageRes 头像资源 ID
+     * @param combatPower 当前战斗力
+     * @param lastUpgradeChoiceLevel 上次升级选择的等级
+     */
+    public CharacterModel(int userId, String name, int level, int exp, int imageRes, int combatPower, int lastUpgradeChoiceLevel) {
+        this.userId = userId;
+        this.name = name;
+        this.level = level;
+        this.exp = exp;
+        this.imageRes = imageRes;
+        this.combatPower = combatPower;
+        this.lastUpgradeChoiceLevel = lastUpgradeChoiceLevel;
     }
 
     public int getUserId() {
@@ -75,5 +97,13 @@ public class CharacterModel {
 
     public void setCombatPower(int combatPower) {
         this.combatPower = combatPower;
+    }
+
+    public int getLastUpgradeChoiceLevel() {
+        return lastUpgradeChoiceLevel;
+    }
+
+    public void setLastUpgradeChoiceLevel(int lastUpgradeChoiceLevel) {
+        this.lastUpgradeChoiceLevel = lastUpgradeChoiceLevel;
     }
 }

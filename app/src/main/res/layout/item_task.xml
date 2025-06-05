@@ -12,13 +12,16 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="任务名称"
-        android:textSize="18sp" />
+        android:textSize="24sp" />
 
     <ImageButton
         android:id="@+id/btn_task_complete"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:src="@drawable/ic_task_complete_placeholder"
         android:contentDescription="完成任务"
-        android:background="?android:attr/selectableItemBackgroundBorderless"/>
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:scaleType="fitCenter"
+        android:padding="4dp"
+        android:adjustViewBounds="true"/>
 </LinearLayout>

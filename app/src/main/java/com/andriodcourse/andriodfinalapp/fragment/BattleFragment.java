@@ -22,6 +22,7 @@ import androidx.fragment.app.Fragment;
 import com.andriodcourse.andriodfinalapp.R;
 import com.andriodcourse.andriodfinalapp.db.CharacterDAO;
 import com.andriodcourse.andriodfinalapp.model.CharacterModel;
+import com.andriodcourse.andriodfinalapp.util.UpgradeChoiceManager;
 
 /**
  * 战斗界面 Fragment，展示boss血量和战斗功能
@@ -42,6 +43,7 @@ public class BattleFragment extends Fragment {
     private boolean isAttacking = false;
 
     private Handler handler = new Handler(Looper.getMainLooper());
+    private UpgradeChoiceManager upgradeChoiceManager;
 
     public BattleFragment() {
         // Required empty public constructor
@@ -61,6 +63,10 @@ public class BattleFragment extends Fragment {
         initBossHp();
         loadCharacterImage();
         setupAttackButton();
+        
+        // 初始化升级选择管理器
+        upgradeChoiceManager = new UpgradeChoiceManager(getContext());
+        
         return root;
     }
 
@@ -236,7 +242,7 @@ public class BattleFragment extends Fragment {
     }
 
     /**
-     * 给予胜利奖励
+     * 给予胜利奖励（集成升级选择功能）
      */
     private void giveVictoryReward() {
         Context ctx = requireContext();
@@ -245,9 +251,35 @@ public class BattleFragment extends Fragment {
         
         if (userId >= 0) {
             CharacterDAO dao = new CharacterDAO(ctx);
-            // 给予大量经验奖励
-            dao.addExp(userId, 50);
-            Toast.makeText(getContext(), "获得经验奖励: 50", Toast.LENGTH_SHORT).show();
+            // 给予大量经验奖励，并检查是否需要升级选择
+            dao.addExp(userId, 50, new CharacterDAO.OnUpgradeChoiceNeededListener() {
+                @Override
+                public void onUpgradeChoiceNeeded(int userId, int currentLevel, int previousLevel) {
+                    // 确保在UI线程中执行对话框操作
+                    if (getActivity() != null && isAdded()) {
+                        getActivity().runOnUiThread(() -> {
+                            // 检查是否需要显示升级选择对话框
+                            if (upgradeChoiceManager.shouldShowUpgradeChoice(userId, currentLevel, previousLevel)) {
+                                upgradeChoiceManager.showUpgradeChoiceDialog(userId, currentLevel, 
+                                        new UpgradeChoiceManager.OnUpgradeCompleteListener() {
+                                    @Override
+                                    public void onUpgradeComplete(int levelsGained, boolean success) {
+                                        // 升级选择完成后的处理
+                                        String message = "获得经验奖励: 50";
+                                        if (success && levelsGained > 0) {
+                                            message += "\n🎉 额外升级 " + levelsGained + " 级！";
+                                        }
+                                        Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
+                                    }
+                                });
+                            } else {
+                                // 没有升级选择，直接显示经验奖励
+                                Toast.makeText(getContext(), "获得经验奖励: 50", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                }
+            });
         }
     }
 

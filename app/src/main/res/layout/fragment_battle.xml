@@ -59,25 +59,26 @@
         android:layout_marginBottom="24dp">
 
         <!-- 角色图片 -->
+
+        <!-- 战斗占位符 -->
         <ImageView
             android:id="@+id/iv_character"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:scaleType="fitCenter"
             android:adjustViewBounds="true"
             android:contentDescription="角色"
+            android:scaleType="fitCenter"
             app:srcCompat="@drawable/char_middle_frame1" />
 
-        <!-- 战斗占位符 -->
         <ImageView
             android:id="@+id/iv_battle_placeholder"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:scaleType="fitCenter"
             android:adjustViewBounds="true"
             android:contentDescription="战斗场景"
+            android:scaleType="fitCenter"
             app:srcCompat="@drawable/ic_battle_placeholder" />
 
         <!-- Boss图片 -->

@@ -1,4 +1,3 @@
-// app/src/main/java/com/andriodcourse/andriodfinalapp/MainActivity.java
 package com.andriodcourse.andriodfinalapp;
 
 import android.os.Bundle;

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="@android:color/white">
+
+    <!-- 标题 -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="🎉 升级选择 🎉"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:textColor="@android:color/holo_orange_dark"
+        android:layout_marginBottom="8dp" />
+
+    <!-- 副标题 -->
+    <TextView
+        android:id="@+id/tv_level_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="恭喜达到5级里程碑！选择你的升级方式："
+        android:textSize="16sp"
+        android:gravity="center"
+        android:textColor="@android:color/black"
+        android:layout_marginBottom="24dp" />
+
+    <!-- 稳健选择 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@android:drawable/dialog_holo_light_frame"
+        android:padding="16dp"
+        android:layout_marginBottom="12dp">
+
+        <Button
+            android:id="@+id/btn_safe_choice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="🛡️ 稳健选择"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:background="@android:color/holo_green_light"
+            android:textColor="@android:color/white"
+            android:padding="12dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="100% 概率升 1 级\n稳妥安全，必定成功"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:textColor="@android:color/darker_gray"
+            android:layout_marginTop="8dp" />
+    </LinearLayout>
+
+    <!-- 平衡选择 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@android:drawable/dialog_holo_light_frame"
+        android:padding="16dp"
+        android:layout_marginBottom="12dp">
+
+        <Button
+            android:id="@+id/btn_medium_choice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="⚖️ 平衡选择"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:background="@android:color/holo_blue_light"
+            android:textColor="@android:color/white"
+            android:padding="12dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="50% 概率升 2 级\n风险适中，收益可观"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:textColor="@android:color/darker_gray"
+            android:layout_marginTop="8dp" />
+    </LinearLayout>
+
+    <!-- 冒险选择 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@android:drawable/dialog_holo_light_frame"
+        android:padding="16dp"
+        android:layout_marginBottom="24dp">
+
+        <Button
+            android:id="@+id/btn_risky_choice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="🎲 赌狗选择"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:background="@android:color/holo_red_light"
+            android:textColor="@android:color/white"
+            android:padding="12dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="30% 概率升 3 级\n高风险高回报，富贵险中求"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:textColor="@android:color/darker_gray"
+            android:layout_marginTop="8dp" />
+    </LinearLayout>
+
+    <!-- 提示文字 -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="⚠️ 如果失败则不会获得任何等级提升"
+        android:textSize="12sp"
+        android:gravity="center"
+        android:textColor="@android:color/holo_red_dark"
+        android:textStyle="italic" />
+
+</LinearLayout> 
